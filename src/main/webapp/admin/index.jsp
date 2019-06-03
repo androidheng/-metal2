@@ -100,6 +100,18 @@
                                 <dd><a href="<%=basePath%>operate/everyMonthFinished.jsp">每月完成率</a></dd>
                             </dl>
                     </li> 
+                    <li class="layui-nav-item">
+                            <a >
+                                <i class="layui-icon ">&#xe653;</i>
+                                <em>信息管理模块</em>
+                            </a>
+                            <dl class="layui-nav-child">
+                                <dd><a href="<%=basePath%>admin/mineInfo.jsp">矿山数据管理</a></dd>
+                                <dd><a href="<%=basePath%>admin/wareInfo.jsp">仓库数据管理</a></dd>
+                                <dd><a href="<%=basePath%>admin/carInfo.jsp">车辆数据管理</a></dd>
+                                <dd><a href="<%=basePath%>admin/warInfo.jsp">挖机数据管理</a></dd>
+                            </dl>
+                    </li> 
                   </ul>
            </div>
         </div>

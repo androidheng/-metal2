@@ -5,11 +5,12 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.util.StringUtils;
-import com.metal.mapper.TbCarMapper;
-import com.metal.pojo.TbCar;
-import com.metal.pojo.TbCarExample;
-import com.metal.pojo.TbCarExample.Criteria;
+import com.metal.mapper.TbWaMapper;
+import com.metal.pojo.TbWa;
+import com.metal.pojo.TbWaExample;
+import com.metal.pojo.TbWaExample.Criteria;
 import com.metal.service.CarService;
+import com.metal.service.WaService;
 
 import entity.PageResult;
 
@@ -19,17 +20,17 @@ import entity.PageResult;
  *
  */
 @Service
-public class CarServiceImpl implements CarService {
+public class WaServiceImpl implements WaService {
 
 	@Autowired
-	private TbCarMapper mineMapper;
+	private TbWaMapper waMapper;
 	
 	/**
 	 * 查询全部
 	 */
 	@Override
-	public List<TbCar> findAll() {
-		return mineMapper.selectByExample(null);
+	public List<TbWa> findAll() {
+		return waMapper.selectByExample(null);
 	}
 
 	/**
@@ -38,7 +39,7 @@ public class CarServiceImpl implements CarService {
 	@Override
 	public PageResult findPage(int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);		
-		Page<TbCar> page=   (Page<TbCar>) mineMapper.selectByExample(null);
+		Page<TbWa> page=   (Page<TbWa>) waMapper.selectByExample(null);
 		return new PageResult(page.getTotal(), page.getResult());
 	}
 
@@ -46,8 +47,8 @@ public class CarServiceImpl implements CarService {
 	 * 增加
 	 */
 	@Override
-	public void add(TbCar mine) {
-		mineMapper.insert(mine);		
+	public void add(TbWa mine) {
+		waMapper.insert(mine);		
 	}
 
 	
@@ -55,8 +56,8 @@ public class CarServiceImpl implements CarService {
 	 * 修改
 	 */
 	@Override
-	public void update(TbCar mine){
-		mineMapper.updateByPrimaryKeySelective(mine);
+	public void update(TbWa mine){
+		waMapper.updateByPrimaryKeySelective(mine);
 	}	
 	
 	/**
@@ -65,8 +66,8 @@ public class CarServiceImpl implements CarService {
 	 * @return
 	 */
 	@Override
-	public TbCar findOne(Integer id){
-		return mineMapper.selectByPrimaryKey(id);
+	public TbWa findOne(Integer id){
+		return waMapper.selectByPrimaryKey(id);
 	}
 
 	/**
@@ -75,26 +76,26 @@ public class CarServiceImpl implements CarService {
 	@Override
 	public void delete(Integer id) {
 		
-		mineMapper.deleteByPrimaryKey(id);
+		waMapper.deleteByPrimaryKey(id);
 				
 	}
 	
 	
 		@Override
-	public PageResult findPage(TbCar car, int pageNum, int pageSize) {
+	public PageResult findPage(TbWa wa, int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
 		
-		TbCarExample example=new TbCarExample();
+		TbWaExample example=new TbWaExample();
 		Criteria criteria = example.createCriteria();
 		
-		if(car!=null){			
+		if(wa!=null){			
 				
-			if(!StringUtils.isEmpty(car.getCarname())) {
-				criteria.andCarnameLike("%"+car.getCarname()+"%");
+			if(!StringUtils.isEmpty(wa.getWaname())) {
+				criteria.andWanameLike("%"+wa.getWaname()+"%");
 			}
 		}
 		
-		Page<TbCar> page= (Page<TbCar>)mineMapper.selectByExample(example);		
+		Page<TbWa> page= (Page<TbWa>)waMapper.selectByExample(example);		
 		return new PageResult(0,"",page.getTotal(), page.getResult());
 	}
 	

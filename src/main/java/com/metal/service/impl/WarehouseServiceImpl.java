@@ -89,8 +89,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 		
 		if(warehouse!=null){			
 				
-			if(!StringUtils.isEmpty("")) {
-				
+			if(!StringUtils.isEmpty(warehouse.getWarename())) {
+				criteria.andWarenameLike("%"+warehouse.getWarename()+"%");
 			}
 		}
 		

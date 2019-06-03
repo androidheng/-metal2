@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.metal.pojo.TbBase;
+import com.metal.pojo.TbCar;
 import com.metal.pojo.TbData;
 import com.metal.pojo.TbMine;
 import com.metal.pojo.TbUser;
 import com.metal.pojo.TbWarehouse;
+import com.metal.service.CarService;
 import com.metal.service.DataService;
 import com.metal.service.MineService;
 import com.metal.service.WarehouseService;
@@ -49,6 +51,8 @@ public class DataController {
 	private MineService mineService;
 	@Autowired
 	private WarehouseService warehouseService;
+	@Autowired
+	private CarService carService;
 	
 	/**
 	 * 返回全部列表
@@ -80,11 +84,13 @@ public class DataController {
 	@RequestMapping("/addOrUpdate")
 	public Result addOrUpdate(@RequestBody TbData data){
 		if(StringUtils.isEmpty(data.getId())) {
-			try {
-				TbMine tbMine=mineService.findOne(data.getMid());
-				TbWarehouse tbWarehouse=warehouseService.findOne(data.getWid());
+		try {
+			TbMine tbMine=mineService.findOne(data.getMid());
+			TbWarehouse tbWarehouse=warehouseService.findOne(data.getWid());
+			TbCar tbCar = carService.findOne(data.getCid());
 			data.setMinename(tbMine.getMinename());
 			data.setWarename(tbWarehouse.getWarename());
+			data.setCarno(tbCar.getCarname());
 			dataService.add(data);
 			return new Result(true, "增加成功");
 		} catch (Exception e) {
@@ -93,6 +99,12 @@ public class DataController {
 		}
 		}else{
 			try {
+			TbMine tbMine=mineService.findOne(data.getMid());
+			TbWarehouse tbWarehouse=warehouseService.findOne(data.getWid());
+			TbCar tbCar = carService.findOne(data.getCid());
+			data.setMinename(tbMine.getMinename());
+			data.setWarename(tbWarehouse.getWarename());
+			data.setCarno(tbCar.getCarname());
 			dataService.update(data);
 			return new Result(true, "修改成功");
 		} catch (Exception e) {

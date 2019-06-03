@@ -115,7 +115,7 @@ public class MineController {
 	public PageResult search(String key, int page, int limit  ){
 		TbMine mine=new TbMine();
 		if(!StringUtils.isEmpty(key)) {
-			
+			mine.setMinename(key);
 		}
 		return mineService.findPage(mine, page, limit);		
 	}

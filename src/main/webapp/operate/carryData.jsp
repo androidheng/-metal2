@@ -43,8 +43,11 @@
            </div>
            <div class="layui-form-item">
                <label class="layui-form-label">车辆编号</label>
-               <div class="layui-input-block">
+             <!--   <div class="layui-input-block">
                  <input type="text" name="carno" required  lay-verify="required" class="layui-input">
+               </div> -->
+               <div class="layui-input-block">
+                   <select id="cid" name="cid" lay-verify="required"></select>
                </div>
            </div>
            <div class="layui-form-item">
@@ -117,10 +120,16 @@
 
           ,url:'<%=basePath%>data/search'
           ,cols: [[ //标题栏
-             {field: 'carno', title: '车辆编号' }
+            /*  {field: 'carno', title: '车辆编号' }
             ,{field: 'tonnage', title: '运载吨数'}
-            ,{field: 'minename', title: '出发地'}
+            ,{field: 'minename', title: '装载点'}
+            ,{field: 'maxcount1', title: '最大产出吨数'}
             ,{field: 'warename', title: '目的地'}
+            ,{field: 'createtime', title: '创建时间'} */
+            {field: 'minename', title: '装载点'}
+            ,{field: 'carno', title: '车牌号' }
+            ,{field: 'tonnage', title: '运载总吨数'}
+            ,{field: 'warename', title: '卸载点'}
             ,{field: 'createtime', title: '创建时间'}
            
          ]]
@@ -156,6 +165,7 @@
     	});
        getMine()
        getWid()
+       getCid()
        function renderForm(){
     	    layui.use('form', function(){
     	        var form = layui.form;//高版本建议把括号去掉，有的低版本，需要加()
@@ -164,6 +174,26 @@
        }
        
      
+       //获取车辆名称
+       function getCid(){
+    	   $.ajax({
+               url:"<%=basePath%>car/findAll",
+               type:'post',//method请求方式，get或者post
+               dataType:'json',//预期服务器返回的数据类型
+               contentType: "application/json; charset=utf-8",
+               success:function(res){//res为相应体,function为回调函数
+              	   let options = "<option value=''></option>"
+                   res.forEach(item=>{
+                  	 options+="<option value='" + item.id + "'>" + item.carname + "</option>";
+                   })
+                  $("#cid").html(options)
+                  renderForm()
+               },
+               error:function(){
+                
+               }
+           });
+       }
        //获取矿山名称
        function getMine(){
     	   $.ajax({

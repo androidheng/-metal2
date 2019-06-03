@@ -115,7 +115,7 @@ public class WarehouseController {
 	public PageResult search(String key, int page, int limit  ){
 		TbWarehouse warehouse=new TbWarehouse();
 		if(!StringUtils.isEmpty(key)) {
-			
+			warehouse.setWarename(key);
 		}
 		return warehouseService.findPage(warehouse, page, limit);		
 	}

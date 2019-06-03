@@ -1,14 +1,15 @@
 package com.metal.controller;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.metal.pojo.TbCar;
-import com.metal.service.CarService;
+
+import com.metal.pojo.TbWa;
+import com.metal.service.WaService;
 
 import entity.PageResult;
 import entity.Result;
@@ -18,11 +19,11 @@ import entity.Result;
  *
  */
 @Controller
-@RequestMapping("/car")
-public class CarController {
+@RequestMapping("/war")
+public class WaController {
 
 	@Autowired
-	private CarService carService;
+	private WaService waService;
 	
 	/**
 	 * 返回全部列表
@@ -30,8 +31,8 @@ public class CarController {
 	 */
 	@ResponseBody
 	@RequestMapping("/findAll")
-	public List<TbCar> findAll(){			
-		return carService.findAll();
+	public List<TbWa> findAll(){			
+		return waService.findAll();
 	}
 	
 	
@@ -42,7 +43,7 @@ public class CarController {
 	@ResponseBody
 	@RequestMapping("/findPage")
 	public PageResult  findPage(int page,int rows){			
-		return carService.findPage(page, rows);
+		return waService.findPage(page, rows);
 	}
 	
 	/**
@@ -52,10 +53,10 @@ public class CarController {
 	 */
 	@ResponseBody
 	@RequestMapping("/addOrUpdate")
-	public Result addOrUpdate(@RequestBody TbCar mine){
-		if(StringUtils.isEmpty(mine.getId())) {
+	public Result addOrUpdate(@RequestBody TbWa wa){
+		if(StringUtils.isEmpty(wa.getId())) {
 			try {
-				carService.add(mine);
+				waService.add(wa);
 			return new Result(true, "增加成功");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -63,7 +64,7 @@ public class CarController {
 		}
 		}else{
 			try {
-				carService.update(mine);
+				waService.update(wa);
 			return new Result(true, "修改成功");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -82,8 +83,8 @@ public class CarController {
 	 */
 	@ResponseBody
 	@RequestMapping("/findOne")
-	public TbCar findOne(Integer id){
-		return carService.findOne(id);		
+	public TbWa findOne(Integer id){
+		return waService.findOne(id);		
 	}
 	
 	/**
@@ -95,7 +96,7 @@ public class CarController {
 	@RequestMapping("/delete")
 	public Result delete(Integer id){
 		try {
-			carService.delete(id);
+			waService.delete(id);
 			return new Result(true, "删除成功"); 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,11 +114,11 @@ public class CarController {
 	 @ResponseBody
 	@RequestMapping("/search")
 	public PageResult search(String key, int page, int limit  ){
-		TbCar car=new TbCar();
+		TbWa wa=new TbWa();
 		if(!StringUtils.isEmpty(key)) {
-			car.setCarname(key);
+			wa.setWaname(key);
 		}
-		return carService.findPage(car, page, limit);		
+		return waService.findPage(wa, page, limit);		
 	}
 	
 }

@@ -86,7 +86,6 @@
              {field: 'minename', title: '装载点'}
             ,{field: 'maxcount1', title: '最大产出吨数'}
             ,{field: 'carno', title: '车牌号' }
-            //,{field: 'nums', title: '运载次数'}
             ,{field: 'tonnage', title: '运载总吨数'}
             ,{field: 'warename', title: '卸载点'}
             ,{field: 'createtime', title: '创建时间'}

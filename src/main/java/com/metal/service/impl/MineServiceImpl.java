@@ -89,8 +89,8 @@ public class MineServiceImpl implements MineService {
 		
 		if(mine!=null){			
 				
-			if(!StringUtils.isEmpty("")) {
-				
+			if(!StringUtils.isEmpty(mine.getMinename())) {
+				criteria.andMinenameEqualTo(mine.getMinename());
 			}
 		}
 		

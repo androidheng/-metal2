@@ -80,7 +80,7 @@ public class DataServiceImpl implements DataService {
 	}
 	
 	
-		@Override
+	@Override
 	public PageResult findPage(TbData data, int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
 		

@@ -65,13 +65,18 @@
            elem: '#demo'
           ,url:'<%=basePath%>data/search2'
           ,cols: [[ //标题栏
-        	   {field: 'carno', title: '车辆编号' }
+        	 /*   {field: 'carno', title: '车辆编号' }
               ,{field: 'tonnage', title: '运载吨数'}
               ,{field: 'minename', title: '出发地'}
               ,{field: 'warename', title: '目的地'}
               ,{field: 'nums', title: '车辆总趟数'}
-              ,{field: 'createtime', title: '创建时间'}
+              ,{field: 'createtime', title: '创建时间'} */
            
+              {field: 'warename', title: '卸载点'}
+              ,{field: 'carno', title: '车牌号' }
+              ,{field: 'minename', title: '装载点'}
+              ,{field: 'tonnage', title: '接收总吨数'}
+              ,{field: 'createtime', title: '创建时间'}
          ]]
          
         ,id:'testReload'

@@ -1,6 +1,6 @@
 package com.metal.service;
 import java.util.List;
-import com.metal.pojo.TbCar;
+import com.metal.pojo.TbWa;
 
 import entity.PageResult;
 /**
@@ -8,13 +8,13 @@ import entity.PageResult;
  * @author Administrator
  *
  */
-public interface CarService {
+public interface WaService {
 
 	/**
 	 * 返回全部列表
 	 * @return
 	 */
-	public List<TbCar> findAll();
+	public List<TbWa> findAll();
 	
 	
 	/**
@@ -27,13 +27,13 @@ public interface CarService {
 	/**
 	 * 增加
 	*/
-	public void add(TbCar mine);
+	public void add(TbWa mine);
 	
 	
 	/**
 	 * 修改
 	 */
-	public void update(TbCar mine);
+	public void update(TbWa mine);
 	
 
 	/**
@@ -41,7 +41,7 @@ public interface CarService {
 	 * @param id
 	 * @return
 	 */
-	public TbCar findOne(Integer id);
+	public TbWa findOne(Integer id);
 	
 	
 	/**
@@ -56,6 +56,6 @@ public interface CarService {
 	 * @param pageSize 每页记录数
 	 * @return
 	 */
-	public PageResult findPage(TbCar car, int pageNum,int pageSize);
+	public PageResult findPage(TbWa car, int pageNum,int pageSize);
 	
 }
