@@ -83,7 +83,7 @@
           ,url:'<%=basePath%> data/statistical'
           ,cols: [[ //标题栏
         	 {field: 'warename', title: '卸载点'}
-            ,{field: 'warename', title: '最大容量'}
+            ,{field: 'maxcount1', title: '最大容量'}
             ,{field: 'carno', title: '车牌号' }
             ,{field: 'minename', title: '装载点'}
             ,{field: 'tonnage', title: '接收总吨数'}
@@ -130,7 +130,7 @@
            let wid = $("#wid").val()
            // if(!type) return alert('请先选择 报表类型');
            // if(!date) return alert('请先选日期');
-           location.href="<%=basePath%>data/exportstatistical?type="+type+"&date="+date+"&wid="+wid;
+           location.href="<%=basePath%>data/exportstatistical2?type="+type+"&date="+date+"&wid="+wid;
          });
        getMine()
        function renderForm(){
@@ -188,7 +188,7 @@
      	          //执行一个laydate实例
      	     	  laydate.render({
      	     	    elem: '#date', //指定元素
-     	     	    value: '2019-05-12'
+     	     	    value: new Date()
      	     	  });
        });
        layui.use('laydate', function(){

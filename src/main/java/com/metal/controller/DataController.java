@@ -91,6 +91,9 @@ public class DataController {
 			data.setMinename(tbMine.getMinename());
 			data.setWarename(tbWarehouse.getWarename());
 			data.setCarno(tbCar.getCarname());
+			if(Double.parseDouble(data.getTonnage())>Double.parseDouble(tbCar.getMaxcount())) {
+				return new Result(false, "超过车辆的最大运载吨数,请重新输入");
+			}
 			dataService.add(data);
 			return new Result(true, "增加成功");
 		} catch (Exception e) {
@@ -105,6 +108,9 @@ public class DataController {
 			data.setMinename(tbMine.getMinename());
 			data.setWarename(tbWarehouse.getWarename());
 			data.setCarno(tbCar.getCarname());
+			if(Double.parseDouble(data.getTonnage())>Double.parseDouble(tbCar.getMaxcount())) {
+				return new Result(false, "查过车辆的最大运载吨数,请重新输入");
+			}
 			dataService.update(data);
 			return new Result(true, "修改成功");
 		} catch (Exception e) {
@@ -154,13 +160,16 @@ public class DataController {
 	 */
 	 @ResponseBody
 	@RequestMapping("/search")
-	public PageResult search(Integer mid,Integer wid, int page, int limit  ){
+	public PageResult search(Integer mid,Integer wid,Integer cid, int page, int limit  ){
 		TbData data=new TbData();
 		if(!StringUtils.isEmpty(mid)) {
 			data.setMid(mid);
 		}
 		if(!StringUtils.isEmpty(wid)) {
 			data.setWid(wid);
+		}
+		if(!StringUtils.isEmpty(cid)) {
+			data.setCid(cid);
 		}
 		return dataService.findPage(data, page, limit);		
 	}
@@ -286,22 +295,24 @@ public class DataController {
 					List<TbData> list=result.getData();
 					for(TbData d:list){
 						Map<String, Object> map1=new HashMap<>();
-						map1.put("carno", d.getCarno());
 						map1.put("minename", d.getMinename());
-						map1.put("warename", d.getWarename());
+						map1.put("maxcount1", d.getMaxcount1());
+						map1.put("carno", d.getCarno());
 						map1.put("tonnage", d.getTonnage());
-						map1.put("nums", d.getNums());
+						map1.put("warename", d.getWarename());
+						map1.put("createtime", d.getCreatetime());
 						resultList.add(map1);
 					}
 			
 				List<ExcelBean> excel = new ArrayList<>();
 				Map<Integer,List<ExcelBean>> map = new LinkedHashMap<>();
 				//设置标题栏
-				excel.add(new ExcelBean("车辆编号","carno",0));
-				excel.add(new ExcelBean("矿山名","minename",0));
-				excel.add(new ExcelBean("仓库名","warename",0));
+				excel.add(new ExcelBean("装载点","minename",0));
+				excel.add(new ExcelBean("最大产出吨数","maxcount1",0));
+				excel.add(new ExcelBean("车牌号","carno",0));
 				excel.add(new ExcelBean("运载总吨数","tonnage",0));
-				excel.add(new ExcelBean("车辆总趟数","nums",0));
+				excel.add(new ExcelBean("卸载点","warename",0));
+				excel.add(new ExcelBean("创建时间","createtime",0));
 				map.put(0,excel);
 				String sheetName = dates+"数据信息";
 				//调用ExcelUtil方法
@@ -331,6 +342,74 @@ public class DataController {
 					e.printStackTrace();  
 				}
 			}   
+	 }
+	 @ResponseBody
+	 @RequestMapping(value="/exportstatistical2",produces = "application/json;charset=UTF-8")
+	 public void exportstatistical2(String type,String date,Integer mid,Integer wid,HttpSession session,HttpServletRequest request,HttpServletResponse response) {
+		 if(StringUtils.isEmpty(type)) {
+			 type="0";
+		 }
+		 if(StringUtils.isEmpty(date)) {
+			 date=DateUtils.getCurrentDay();
+		 }
+		 String dates=DateUtils.getName();
+		 TbUser user=(TbUser) session.getAttribute("user");
+		 user=new TbUser();
+		 user.setUsertype(1);
+		 if(user!=null){ 
+			 PageResult result=statistical(type,date,mid,wid,1,10000);
+			 Map<String, Object> resultMap=new HashMap<String, Object>();
+			 List<Map<String, Object>> resultList=new ArrayList<Map<String,Object>>();
+			 List<TbData> list=result.getData();
+			 for(TbData d:list){
+				 Map<String, Object> map1=new HashMap<>();
+				 map1.put("warename", d.getWarename());
+				 map1.put("maxcount1", d.getMaxcount1());
+				 map1.put("carno", d.getCarno());
+				 map1.put("minename", d.getMinename());
+				 map1.put("tonnage", d.getTonnage());
+				 map1.put("createtime", d.getCreatetime());
+				 resultList.add(map1);
+			 }
+			 
+			 List<ExcelBean> excel = new ArrayList<>();
+			 Map<Integer,List<ExcelBean>> map = new LinkedHashMap<>();
+			 //设置标题栏
+			 excel.add(new ExcelBean("卸载点","warename",0));
+			 excel.add(new ExcelBean("最大容量","maxcount1",0));
+			 excel.add(new ExcelBean("车牌号","carno",0));
+			 excel.add(new ExcelBean("装载点","minename",0));
+			 excel.add(new ExcelBean("接收总吨数","tonnage",0));
+			 excel.add(new ExcelBean("创建时间","createtime",0));
+			 map.put(0,excel);
+			 String sheetName = dates+"数据信息";
+			 //调用ExcelUtil方法
+			 XSSFWorkbook xssfWorkbook = null;
+			 try {
+				 xssfWorkbook = ExcelUtil.createExcelFile(TbBase.class, resultList, map, sheetName);
+			 } catch (Exception e) {
+				 e.printStackTrace();
+			 } 
+			 System.out.println(xssfWorkbook);
+			 
+			 
+			 try {  	
+				 response.reset(); //清除buffer缓存  
+				 // 指定下载的文件名  
+				 response.setContentType("application/vnd.ms-excel;charset=UTF-8");  
+				 String name=System.currentTimeMillis()+"";
+				 response.setHeader("Content-Disposition","attachment;filename="+new String((name+".xlsx").getBytes(),"iso-8859-1"));
+				 //导出Excel对象  
+				 XSSFWorkbook workbook = xssfWorkbook;
+				 OutputStream output = response.getOutputStream();  
+				 BufferedOutputStream bufferedOutput = new BufferedOutputStream(output);  
+				 bufferedOutput.flush();  
+				 workbook.write(bufferedOutput);  
+				 bufferedOutput.close();  
+			 } catch (IOException e) {  
+				 e.printStackTrace();  
+			 }
+		 }   
 	 }
 	
 }

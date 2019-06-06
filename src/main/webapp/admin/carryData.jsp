@@ -43,8 +43,11 @@
            </div>
            <div class="layui-form-item">
                <label class="layui-form-label">车辆编号</label>
+             <!--   <div class="layui-input-block">
+                 <input type="text" name="carno" required  lay-verify="required" class="layui-input">
+               </div> -->
                <div class="layui-input-block">
-                 <input type="text" name="carno"  required  lay-verify="required" class="layui-input spacil">
+                   <select id="addCid" name="cid" lay-verify="required"></select>
                </div>
            </div>
            <div class="layui-form-item">
@@ -90,6 +93,12 @@
                              </form>
                           </div>                                                
                         </div>
+                                                                           车辆查询
+                         <div class="layui-inline" >
+                             <form class="layui-form" action="">
+                               <select  id="cid" lay-verify="required" ></select> 
+                             </form>
+                         </div>
                       <button class="layui-btn" data-type="reload">查询</button>
                     </div>
                     <table id="demo" lay-filter="demo" ></table>
@@ -141,6 +150,7 @@
     	       reload: function(){
     	         var mid = $('#mid');
     	         var wid = $('#wid');
+    	         var cid = $('#cid');
     	        // var usertype = $('#usertype');
     	         //执行重载
     	         table.reload('testReload', {
@@ -150,6 +160,7 @@
     	           ,where: {
     	        	   mid: mid.val(),
     	        	   wid: wid.val(),
+    	        	   cid:cid.val()
     	           }
     	         });
     	       }
@@ -161,6 +172,7 @@
     	});
        getMine()
        getWid()
+       getCar()
        function renderForm(){
     	    layui.use('form', function(){
     	        var form = layui.form;//高版本建议把括号去掉，有的低版本，需要加()
@@ -205,6 +217,27 @@
         	 add(data)
          }
        });
+       //获取车辆信息
+       function getCar(){
+    	   $.ajax({
+               url:"<%=basePath%>car/findAll",
+               type:'post',//method请求方式，get或者post
+               dataType:'json',//预期服务器返回的数据类型
+               contentType: "application/json; charset=utf-8",
+               success:function(res){//res为相应体,function为回调函数
+              	   let options = "<option value=''></option>"
+                     res.forEach(item=>{
+                  	 options+="<option value='" + item.id + "'>" + item.carname + "</option>";
+                     })
+                     $("#cid").html(options)
+                     $("#addCid").html(options)
+                     renderForm()
+               },
+               error:function(){
+                
+               }
+           });
+       }
      //获取仓库名称
        function getWid(){
     	   $.ajax({

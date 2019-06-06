@@ -88,7 +88,7 @@
         	
              {field: 'carno', title: '车牌号' }
             ,{field: 'minename', title: '装载点'}
-            ,{field: 'nums', title: '运载次数'}
+            ,{field: 'nums2', title: '运载次数'}
             ,{field: 'nums', title: '车辆总趟数'}
             ,{field: 'tonnage', title: '运载总吨数'}
             ,{field: 'warename', title: '卸载点'}
@@ -129,7 +129,7 @@
     	    var type = $(this).data('type');
     	    active[type] ? active[type].call(this) : '';
     	});
-       getMine();
+       getCar();
        function renderForm(){
    	    layui.use('form', function(){
    	        var form = layui.form;//高版本建议把括号去掉，有的低版本，需要加()
@@ -143,7 +143,7 @@
       	 if(!date) return alert('请先选日期');
       	 location.href="<%=basePath%>data/exportYun?type="+type+"&date="+date;
        });
-       function getMine(){
+       function getCar(){
     	   $.ajax({
                url:"<%=basePath%>car/findAll",
                type:'post',//method请求方式，get或者post
@@ -189,7 +189,7 @@
      	          //执行一个laydate实例
      	     	  laydate.render({
      	     	    elem: '#date', //指定元素
-     	     	    value: '2019-05-12'
+     	     	    value: new Date()
      	     	  });
        });
        layui.use('laydate', function(){

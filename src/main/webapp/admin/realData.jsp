@@ -260,7 +260,7 @@
     	             	   //执行一个laydate实例
     	             	  laydate.render({
     	             	    elem: '#createDate', //指定元素
-    	             	    type:'year'
+    	             	   	value: new Date()
     	             	  });
     	               });
                      

@@ -95,6 +95,10 @@ public class DataServiceImpl implements DataService {
 			if(!StringUtils.isEmpty(data.getWid())) {
 				criteria.andWidEqualTo(data.getWid());
 			}
+			if(!StringUtils.isEmpty(data.getCid())) {
+				criteria.andCidEqualTo(data.getCid());
+			}
+			
 		}
 		Page<TbData> page= (Page<TbData>)dataMapper.selectByExample(example);		
 		return new PageResult(0,"",page.getTotal(), page.getResult());

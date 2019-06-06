@@ -275,8 +275,13 @@
                               data:JSON.stringify(data.field),
                               contentType: "application/json; charset=utf-8",
                               success:function(res){//res为相应体,function为回调函数
-                            	  layer.close(index)
-                                  $(".layui-laypage-btn")[0].click();
+                            	  if(res.success){
+                            		  layer.close(index)
+                                      $(".layui-laypage-btn")[0].click();
+                            	  }else{
+                            		  layer.alert(res.message,{icon: 5});
+                            	  }
+                            	  
                               },
                               error:function(){
                                

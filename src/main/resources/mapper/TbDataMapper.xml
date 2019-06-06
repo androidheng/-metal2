@@ -12,6 +12,7 @@
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
     <result column="cid" property="cid" jdbcType="INTEGER" />
     <result column="nums" property="nums" jdbcType="VARCHAR" />
+    <result column="nums2" property="nums2" jdbcType="VARCHAR" />
     <result column="maxcount1" property="maxcount1" jdbcType="VARCHAR" />
     <result column="maxcount2" property="maxcount2" jdbcType="VARCHAR" />
   </resultMap>
@@ -292,7 +293,8 @@
   </select>
   <select id="findYunDay" resultMap="BaseResultMap">
  		SELECT a.`carno`,a.`minename`,a.`warename`,SUM(a.`tonnage`) tonnage,a.`createtime`,
-		(SELECT COUNT(0) FROM tb_data aa WHERE aa.carno=a.`carno` and aa.`createtime` =#{date,jdbcType=VARCHAR}) nums
+		(SELECT COUNT(0) FROM tb_data aa WHERE aa.carno=a.`carno` and aa.`createtime` =#{date,jdbcType=VARCHAR}) nums,
+		(SELECT COUNT(0) FROM tb_data aa WHERE aa.carno=a.`carno` AND aa.wid=a.wid AND aa.mid=a.mid AND DATE_FORMAT(aa.createtime,'%Y-%m') =#{date,jdbcType=VARCHAR}) nums2
 		FROM tb_data a WHERE a.`createtime` =#{date,jdbcType=VARCHAR}
 		<if test="cid!=null">
 			and a.cid=#{cid,jdbcType=INTEGER}
@@ -301,7 +303,8 @@
   </select>
   <select id="findYunMonth" resultMap="BaseResultMap">
  	SELECT a.`carno`,a.`minename`,a.`warename`,SUM(a.`tonnage`) tonnage,DATE_FORMAT(a.createtime,'%Y-%m') createtime,
-		(SELECT COUNT(0) FROM tb_data aa WHERE aa.carno=a.`carno` and DATE_FORMAT(aa.createtime,'%Y-%m') =#{date,jdbcType=VARCHAR}) nums
+		(SELECT COUNT(0) FROM tb_data aa WHERE aa.carno=a.`carno` and DATE_FORMAT(aa.createtime,'%Y-%m') =#{date,jdbcType=VARCHAR}) nums,
+		(SELECT COUNT(0) FROM tb_data aa WHERE aa.carno=a.`carno` AND aa.wid=a.wid AND aa.mid=a.mid AND DATE_FORMAT(aa.createtime,'%Y-%m') =#{date,jdbcType=VARCHAR}) nums2
 		FROM tb_data a WHERE DATE_FORMAT(a.createtime,'%Y-%m') =#{date,jdbcType=VARCHAR}
 		<if test="cid!=null">
 			and a.cid=#{cid,jdbcType=INTEGER}
@@ -310,7 +313,8 @@
   </select>
   <select id="findYunYear" resultMap="BaseResultMap">
  	SELECT a.`carno`,a.`minename`,a.`warename`,SUM(a.`tonnage`) tonnage,DATE_FORMAT(a.createtime,'%Y') createtime,
-		(SELECT COUNT(0) FROM tb_data aa WHERE aa.carno=a.`carno` and DATE_FORMAT(aa.createtime,'%Y') =#{date,jdbcType=VARCHAR}) nums
+		(SELECT COUNT(0) FROM tb_data aa WHERE aa.carno=a.`carno` and DATE_FORMAT(aa.createtime,'%Y') =#{date,jdbcType=VARCHAR}) nums,
+		(SELECT COUNT(0) FROM tb_data aa WHERE aa.carno=a.`carno` AND aa.wid=a.wid AND aa.mid=a.mid AND DATE_FORMAT(aa.createtime,'%Y-%m') =#{date,jdbcType=VARCHAR}) nums2
 		FROM tb_data a WHERE DATE_FORMAT(a.createtime,'%Y') =#{date,jdbcType=VARCHAR}
 		<if test="cid!=null">
 			and a.cid=#{cid,jdbcType=INTEGER}
@@ -334,6 +338,7 @@
  		SELECT a.`carno`,a.`minename`,a.`warename`,SUM(a.`tonnage`) tonnage,DATE_FORMAT(a.createtime,'%Y-%m') createtime,b.maxcount maxcount1,c.maxcount maxcount2
 		FROM tb_data a,tb_mine b,tb_warehouse c
 		WHERE DATE_FORMAT(a.createtime,'%Y-%m') =#{date,jdbcType=VARCHAR}
+		AND a.`mid`=b.`id` AND a.cid=c.id
 		<if test="wid != null" >
          and a.`wid` = #{wid,jdbcType=INTEGER}
 	     </if>
@@ -346,6 +351,7 @@
  		SELECT a.`carno`,a.`minename`,a.`warename`,SUM(a.`tonnage`) tonnage,DATE_FORMAT(a.createtime,'%Y') createtime,b.maxcount maxcount1,c.maxcount maxcount2
 		FROM tb_data a,tb_mine b,tb_warehouse c
 		WHERE DATE_FORMAT(a.createtime,'%Y') =#{date,jdbcType=VARCHAR}
+		AND a.`mid`=b.`id` AND a.cid=c.id
 		<if test="wid != null" >
          and a.`wid` = #{wid,jdbcType=INTEGER}
 	     </if>

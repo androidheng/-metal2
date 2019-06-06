@@ -189,7 +189,7 @@
      	          //执行一个laydate实例
      	     	  laydate.render({
      	     	    elem: '#date', //指定元素
-     	     	    value: '2019-05-12'
+     	     	    value: new Date()
      	     	  });
        });
        layui.use('laydate', function(){

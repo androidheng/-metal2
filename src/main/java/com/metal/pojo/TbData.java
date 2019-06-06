@@ -24,6 +24,7 @@ public class TbData {
     
     private String maxcount2;
 
+    private String nums2;
     public Integer getId() {
         return id;
     }
@@ -118,6 +119,14 @@ public class TbData {
 
 	public void setMaxcount2(String maxcount2) {
 		this.maxcount2 = maxcount2;
+	}
+
+	public String getNums2() {
+		return nums2;
+	}
+
+	public void setNums2(String nums2) {
+		this.nums2 = nums2;
 	}
     
 }
