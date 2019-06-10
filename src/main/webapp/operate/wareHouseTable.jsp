@@ -80,10 +80,10 @@
     	//展示已知数据
         table.render({
            elem: '#demo'
-          ,url:'<%=basePath%> data/statistical'
+          ,url:'<%=basePath%> data/statistical2'
           ,cols: [[ //标题栏
         	 {field: 'warename', title: '卸载点'}
-            ,{field: 'maxcount1', title: '最大容量'}
+            ,{field: 'maxcount2', title: '最大容量'}
             ,{field: 'carno', title: '车牌号' }
             ,{field: 'minename', title: '装载点'}
             ,{field: 'tonnage', title: '接收总吨数'}

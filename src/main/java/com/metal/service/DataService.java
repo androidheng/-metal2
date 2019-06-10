@@ -72,6 +72,9 @@ public interface DataService {
 
 
 	public PageResult statistical(String type, Integer mid, Integer wid, String date, int page, int limit);
+
+
+	public PageResult statistical2(String type, Integer mid, Integer wid, String date, int page, int limit);
 	
 	
 }

@@ -274,6 +274,17 @@ public class DataController {
 		 }
 		 return dataService.statistical(type,mid,wid,date, page, limit);		
 	 }
+	 @ResponseBody
+	 @RequestMapping("/statistical2")
+	 public PageResult statistical2(String type,String date,Integer mid,Integer wid, int page, int limit  ){
+		 if(StringUtils.isEmpty(type)) {
+			 type="0";
+		 }
+		 if(StringUtils.isEmpty(date)) {
+			 date=DateUtils.getCurrentDay();
+		 }
+		 return dataService.statistical2(type,mid,wid,date, page, limit);		
+	 }
 	
 	 @ResponseBody
 	 @RequestMapping(value="/exportstatistical",produces = "application/json;charset=UTF-8")
@@ -357,14 +368,14 @@ public class DataController {
 		 user=new TbUser();
 		 user.setUsertype(1);
 		 if(user!=null){ 
-			 PageResult result=statistical(type,date,mid,wid,1,10000);
+			 PageResult result=statistical2(type,date,mid,wid,1,10000);
 			 Map<String, Object> resultMap=new HashMap<String, Object>();
 			 List<Map<String, Object>> resultList=new ArrayList<Map<String,Object>>();
 			 List<TbData> list=result.getData();
 			 for(TbData d:list){
 				 Map<String, Object> map1=new HashMap<>();
 				 map1.put("warename", d.getWarename());
-				 map1.put("maxcount1", d.getMaxcount1());
+				 map1.put("maxcount2", d.getMaxcount2());
 				 map1.put("carno", d.getCarno());
 				 map1.put("minename", d.getMinename());
 				 map1.put("tonnage", d.getTonnage());
@@ -376,7 +387,7 @@ public class DataController {
 			 Map<Integer,List<ExcelBean>> map = new LinkedHashMap<>();
 			 //设置标题栏
 			 excel.add(new ExcelBean("卸载点","warename",0));
-			 excel.add(new ExcelBean("最大容量","maxcount1",0));
+			 excel.add(new ExcelBean("最大容量","maxcount2",0));
 			 excel.add(new ExcelBean("车牌号","carno",0));
 			 excel.add(new ExcelBean("装载点","minename",0));
 			 excel.add(new ExcelBean("接收总吨数","tonnage",0));

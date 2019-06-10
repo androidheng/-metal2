@@ -38,4 +38,8 @@ public interface TbDataMapper {
     List<TbData> findMonth(@Param("date") String date,@Param("mid") Integer mid, @Param("wid") Integer wid);
     List<TbData> findYear(@Param("date") String date,@Param("mid") Integer mid, @Param("wid") Integer wid);
     
+    List<TbData> findDay2(@Param("date") String date,@Param("mid") Integer mid, @Param("wid") Integer wid);
+    List<TbData> findMonth2(@Param("date") String date,@Param("mid") Integer mid, @Param("wid") Integer wid);
+    List<TbData> findYear2(@Param("date") String date,@Param("mid") Integer mid, @Param("wid") Integer wid);
+    
 }

@@ -147,5 +147,19 @@ public class DataServiceImpl implements DataService {
 				return new PageResult(0,"",page.getTotal(), page.getResult());
 			}
 		}
+		@Override
+		public PageResult statistical2(String type, Integer mid, Integer wid, String date, int pageNum, int pageSize) {
+			PageHelper.startPage(pageNum, pageSize);
+			if(type.equals("0")) {
+				Page<TbData> page= (Page<TbData>)dataMapper.findDay2(date, mid, wid);		
+				return new PageResult(0,"",page.getTotal(), page.getResult());
+			}else if(type.equals("1")) {
+				Page<TbData> page= (Page<TbData>)dataMapper.findMonth2(date.substring(0, 7), mid, wid);		
+				return new PageResult(0,"",page.getTotal(), page.getResult());
+			}else {
+				Page<TbData> page= (Page<TbData>)dataMapper.findYear2(date.substring(0, 4), mid, wid);		
+				return new PageResult(0,"",page.getTotal(), page.getResult());
+			}
+		}
 	
 }
